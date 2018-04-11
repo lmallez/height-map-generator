@@ -2,6 +2,8 @@
 
 import HeightMapGenerator
 import matplotlib.pyplot as plt
+import mpl_toolkits.mplot3d.axes3d as axes3d
+import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib import cm
 import sys
