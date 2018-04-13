@@ -1,4 +1,5 @@
 #!/usr/bin/python3
-HeightMapGenerator.py
+HeightMapManager.py
 HeightMapPrinter.py
+HeightMapReader.py
 HeightMapViewer.py

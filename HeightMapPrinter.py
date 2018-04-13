@@ -1,9 +1,8 @@
 #!/usr/bin/python3
 
+import HeightMapManager as Mgr
 import tkinter as tk
-import HeightMapGenerator as HeightMapGenerator
 import sys
-
 
 class Color:
     def __init__(self, r, g, b):
@@ -13,9 +12,9 @@ class Color:
 
     def merge(self, color, coef=0.5):
         red = int(abs(self.r * (1 - coef) + color.r * coef))
-        green = int(abs(self.g * (1 - coef) + color.g * coef))
+        yellow = int(abs(self.g * (1 - coef) + color.g * coef))
         blue = int(abs(self.b * (1 - coef) + color.b * coef))
-        return Color(red, green, blue)
+        return Color(red, yellow, blue)
 
     def add(self, color):
         self.r += color.r
@@ -55,8 +54,8 @@ EarthTexture = [
     Teinte(-255, 0, Color(0, 0, 0), Color(0, 0, 255)),
     Teinte(-50, 0, Color(0, 0, 0), Color(0, 100, 0)),
     Teinte(0, 150, Color(0, 200, 0), Color(30, 50, 0)),
-    Teinte(150, 200, Color(30, 50, 0), Color(140, 70, 30)),
-    Teinte(200, 500, Color(140, 70, 30), Color(255, 255, 255))
+    Teinte(150, 300, Color(30, 50, 0), Color(140, 70, 30)),
+    Teinte(300, 1000, Color(140, 70, 30), Color(255, 255, 255))
 ]
 
 
@@ -72,11 +71,13 @@ def calcColor(val, x, y, min=0, max=255):
     return fixColor(min + max * ((val - x) / (y - x)))
 
 
-def drawMap(map, canvas, winSize):
-    rectSize = round(winSize / len(map))
-    for y in range(0, len(map)):
-        for x in range(0, len(map)):
-            a = int(map[y][x])
+def drawChunk(chunk, canvas, chunkSize, pos=[0, 0]):
+    rectSize = chunkSize / len(chunk)
+    for y in range(0, len(chunk)):
+        for x in range(0, len(chunk)):
+            if chunk[y][x] is None:
+                continue
+            a = int(chunk[y][x]) * 10
             isSet = False
             colorval = Color(0, 0, 0)
             for teinte in EarthTexture:
@@ -86,18 +87,31 @@ def drawMap(map, canvas, winSize):
                     else:
                         colorval = teinte.getColor(a)
                         isSet = True
-            canvas.create_rectangle(x * rectSize, y * rectSize, (x + 1) * rectSize, (y + 1) * rectSize, fill=colorval.toStr(), outline="")
+            canvas.create_rectangle(x * rectSize + pos[0], y * rectSize + pos[1], (x + 1) * rectSize + pos[0], (y + 1) * rectSize + pos[1], fill=colorval.toStr(), outline="")
 
 
-def printMap(map):
+def printChunk(Chunk, winSize=1000):
     win = tk.Tk()
-    mapSize = 1000
-    canvas = tk.Canvas(win, width=mapSize, height=mapSize, background='black')
-    drawMap(map, canvas, mapSize)
+    canvas = tk.Canvas(win, width=winSize, height=winSize, background='black')
+    drawChunk(Chunk, canvas, 1000)
+    canvas.pack()
+    win.mainloop()
+
+
+def printMap(map, winSize=1000):
+    win = tk.Tk()
+    canvas = tk.Canvas(win, width=winSize, height=winSize, background='black')
+    print(max(map.sizeMap[1].x - map.sizeMap[0].x, map.sizeMap[1].y - map.sizeMap[0].y))
+    chunkSize = winSize / max(map.sizeMap[1].x - map.sizeMap[0].x, map.sizeMap[1].y - map.sizeMap[0].y)
+    for chunk in map.map:
+        chunkPos = [int(chunkSize) * chunk.pos.x,
+                    int(chunkSize) * chunk.pos.y]
+        drawChunk(chunk.map, canvas, chunkSize, pos=chunkPos)
     canvas.pack()
     win.mainloop()
 
 
 if __name__ == '__main__':
     arg = int(sys.argv[1]) if len(sys.argv) > 1 else 5
-    printMap(HeightMapGenerator.genMap(arg))
+    map = Mgr.Map(arg)
+    printChunk(map.chunk_at(0, 0).map)
