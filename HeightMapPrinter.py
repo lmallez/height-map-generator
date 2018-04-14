@@ -77,7 +77,7 @@ def drawChunk(chunk, canvas, chunkSize, pos=[0, 0]):
         for x in range(0, len(chunk)):
             if chunk[y][x] is None:
                 continue
-            a = int(chunk[y][x]) * 10
+            a = int(chunk[y][x])
             isSet = False
             colorval = Color(0, 0, 0)
             for teinte in EarthTexture:
@@ -101,11 +101,10 @@ def printChunk(Chunk, winSize=1000):
 def printMap(map, winSize=1000):
     win = tk.Tk()
     canvas = tk.Canvas(win, width=winSize, height=winSize, background='black')
-    print(max(map.sizeMap[1].x - map.sizeMap[0].x, map.sizeMap[1].y - map.sizeMap[0].y))
     chunkSize = winSize / max(map.sizeMap[1].x - map.sizeMap[0].x, map.sizeMap[1].y - map.sizeMap[0].y)
     for chunk in map.map:
-        chunkPos = [int(chunkSize) * chunk.pos.x,
-                    int(chunkSize) * chunk.pos.y]
+        chunkPos = [int(chunkSize) * chunk.pos.x - chunk.pos.x,
+                    int(chunkSize) * chunk.pos.y - chunk.pos.y]
         drawChunk(chunk.map, canvas, chunkSize, pos=chunkPos)
     canvas.pack()
     win.mainloop()
