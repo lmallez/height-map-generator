@@ -1,5 +1,10 @@
-#!/usr/bin/python3
-HeightMapManager.py
-HeightMapPrinter.py
-HeightMapReader.py
-HeightMapViewer.py
+src/Chunk.py
+src/ChunkBasic.py
+src/DSChunk.py
+src/Map.py
+Discover.py
+Printer.py
+Reader.py
+Viewer.py
+Teinte.py
+BiomPrinter.py
