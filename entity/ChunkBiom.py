@@ -46,7 +46,10 @@ class ChunkBiom(Chunk):
 
     def smooth(self):
         self.height.smooth()
-        self.heat.smooth()
+        # self.heat.smooth() TODO : add special Heat smooth
+
+    def get_size(self):
+        return self.height.get_size()
 
     def avg(self):
         return self.height.avg()

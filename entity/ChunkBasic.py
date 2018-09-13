@@ -36,13 +36,16 @@ class ChunkBasic(Chunk):
             return None
         return self.map[y][x]
 
+    def get_border(self, x, y):
+        return [Point(x - 1, y),
+                Point(x, y - 1),
+                Point(x + 1, y),
+                Point(x, y + 1)]
+
     def smooth_point(self, x, y):
         if self.map[y][x] is None:
             return
-        border = [Point(x - 1, y),
-                  Point(x, y - 1),
-                  Point(x + 1, y),
-                  Point(x, y + 1)]
+        border = self.get_border(x, y)
         avg = []
         for point in border:
             tmp = self.at(point.x, point.y)
@@ -83,6 +86,9 @@ class ChunkBasic(Chunk):
     def add_chunk_west(self, chunk):
         for i in range(0, self.size):
             self.map[i][0] = chunk.map[i][self.size - 1]
+
+    def get_size(self):
+        return self.size
 
     size = 0
     map = []

@@ -29,3 +29,6 @@ class Chunk:
 
     def smooth(self):
         raise NotImplementedError("Should have implemented this")
+
+    def get_size(self):
+        raise NotImplementedError("Should have implemented this")

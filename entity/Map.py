@@ -71,10 +71,10 @@ class Map:
         del self.map[x + y * 1000]
 
     def update_sizemap(self, x, y):
-        self.sizeMap[0].x = x if x < self.sizeMap[0].x else self.sizeMap[0].x
-        self.sizeMap[0].y = y if y < self.sizeMap[0].y else self.sizeMap[0].y
-        self.sizeMap[1].x = x + 1 if x + 1 > self.sizeMap[1].x else self.sizeMap[1].x
-        self.sizeMap[1].y = y + 1 if y + 1 > self.sizeMap[1].y else self.sizeMap[1].y
+        self.size_map.x.x = x if x < self.size_map.x.x else self.size_map.x.x
+        self.size_map.x.y = y if y < self.size_map.x.y else self.size_map.x.y
+        self.size_map.y.x = x + 1 if x + 1 > self.size_map.y.x else self.size_map.y.x
+        self.size_map.y.y = y + 1 if y + 1 > self.size_map.y.y else self.size_map.y.y
 
     def chunk_at(self, x, y):
         return self.map.get(x + y * 1000)
@@ -83,4 +83,4 @@ class Map:
     chunk_size = 0
     chunk_coef = 0
     prof = 0
-    sizeMap = [Point(0, 0), Point(1, 1)]
+    size_map = Point(Point(0, 0), Point(1, 1))

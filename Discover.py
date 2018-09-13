@@ -1,11 +1,13 @@
 #!/usr/bin/python3
 
 import sys
-import BiomPrinter
-from entity.Point import Point
-from entity.ChunkDS import ChunkDS
-from entity.MapDS import MapDS
+
 import sdl2.ext
+
+from draw.PrinterChunkSDL import PrinterChunkSDL
+from draw.PrinterMapBiom import PrinterMapBiom
+from entity.MapDSBiom import MapDSBiom
+from entity.Point import Point
 
 
 class DiscoverMap:
@@ -31,61 +33,68 @@ class DiscoverMap:
         self.point.x += 1
         self.gen_chunk()
 
+    def smooth(self):
+        self.map.smooth()
+
     def regen(self):
         self.gen_chunk(force=True)
 
     def delete(self):
         self.map.delete(self.point.x, self.point.y)
 
-    def print_map(self, surface):
-        chunk_size = 1000 / max(self.map.sizeMap[1].x - self.map.sizeMap[0].x,
-                                self.map.sizeMap[1].y - self.map.sizeMap[0].y)
-        for pos, chunk in self.map.map.items():
-            chunk_pos = [chunk.pos.x - self.map.sizeMap[0].x,
-                         chunk.pos.y - self.map.sizeMap[0].y]
-            chunk_pos = [int(chunk_size) * chunk_pos[0] - chunk.pos.x * chunk_size / self.map.chunk_size,
-                         int(chunk_size) * chunk_pos[1] - chunk.pos.y * chunk_size / self.map.chunk_size]
-            BiomPrinter.drawChunk(surface, chunk.height.map, chunk.heat.map, chunk_size, pos=chunk_pos)
-            if chunk.pos.x == self.point.x and chunk.pos.y == self.point.y:
-                sdl2.ext.fill(surface, sdl2.ext.Color(255, 0, 0), area=[chunk_pos[0] + chunk_size / 2, chunk_pos[1] + chunk_size / 2, 10, 10])
+    def height_view(self):
+        self.hei = not self.hei
 
+    def heat_view(self):
+        self.hea = not self.hea
+
+    def print(self, printer):
+        printer.draw_map(map, hei=self.hei, hea=self.hea)
+
+    hei = True
+    hea = True
     map = None
     point = Point(0, 0)
 
+
+map_key = {
+    sdl2.SDLK_UP: DiscoverMap.gen_top,
+    sdl2.SDLK_LEFT: DiscoverMap.gen_left,
+    sdl2.SDLK_RIGHT: DiscoverMap.gen_right,
+    sdl2.SDLK_DOWN: DiscoverMap.gen_bot,
+    sdl2.SDLK_p: DiscoverMap.smooth,
+    sdl2.SDLK_m: DiscoverMap.regen,
+    sdl2.SDLK_o: DiscoverMap.delete,
+    sdl2.SDLK_u: DiscoverMap.height_view,
+    sdl2.SDLK_i: DiscoverMap.heat_view
+}
 
 def run(map):
     sdl2.ext.init()
     discover_map = DiscoverMap(map)
 
+    winsize = 1000
     window = sdl2.ext.Window("Height Map Discover", size=(1000, 1000))
     window.show()
     surface = window.get_surface()
+
+    printer_chk = PrinterChunkSDL(surface, winsize)
+    printer_map = PrinterMapBiom(printer_chk)
+
     running = True
     edit = True
     while running:
         if edit:
-            edit = False
             sdl2.ext.fill(surface, sdl2.ext.Color(0, 0, 0))
-            discover_map.print_map(surface)
+            discover_map.print(printer_map)
             window.refresh()
+            edit = False
         events = sdl2.ext.get_events()
         for event in events:
             if event.type == sdl2.SDL_KEYDOWN:
-                edit = True
-                if event.key.keysym.sym == sdl2.SDLK_UP:
-                    discover_map.gen_top()
-                elif event.key.keysym.sym == sdl2.SDLK_LEFT:
-                    discover_map.gen_left()
-                elif event.key.keysym.sym == sdl2.SDLK_RIGHT:
-                    discover_map.gen_right()
-                elif event.key.keysym.sym == sdl2.SDLK_DOWN:
-                    discover_map.gen_bot()
-                elif event.key.keysym.sym == sdl2.SDLK_p:
-                    discover_map.map.smooth()
-                elif event.key.keysym.sym == sdl2.SDLK_m:
-                    discover_map.regen()
-                elif event.key.keysym.sym == sdl2.SDLK_o:
-                    discover_map.delete()
+                if event.key.keysym.sym in map_key:
+                    edit = True
+                    map_key[event.key.keysym.sym](discover_map)
                 else:
                     edit = False
             elif event.type == sdl2.SDL_QUIT:
@@ -94,5 +103,5 @@ def run(map):
 
 if __name__ == '__main__':
     arg = int(sys.argv[1]) if len(sys.argv) > 1 else 5
-    map = MapDS(arg, coef=10)
+    map = MapDSBiom(arg, coef=30)
     run(map)
