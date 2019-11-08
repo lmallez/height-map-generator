@@ -1,10 +1,10 @@
 #!/bin/python3
 
-from entity.Chunk import Chunk
-from entity.Point import Point
+from HeightMapGenerator.entities.Chunk import Chunk
+from HeightMapGenerator.entities.Point import Point
 
 
-class ChunkBiom(Chunk):
+class ChunkBiome(Chunk):
     def __init__(self, heat, height, pos=Point(0, 0)):
         self.heat = heat
         self.height = height

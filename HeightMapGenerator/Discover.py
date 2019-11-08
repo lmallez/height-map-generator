@@ -4,18 +4,18 @@ import sys
 
 import sdl2.ext
 
-from draw.PrinterChunkSDL import PrinterChunkSDL
-from draw.PrinterMapBiom import PrinterMapBiom
-from entity.MapDSBiom import MapDSBiom
-from entity.Point import Point
+from HeightMapGenerator.printers.PrinterChunkSDL import PrinterChunkSDL
+from HeightMapGenerator.printers.PrinterMapBiome import PrinterMapBiome
+from HeightMapGenerator.entities.MapDSBiome import MapDSBiome
+from HeightMapGenerator.entities.Point import Point
 
 
 class DiscoverMap:
-    def __init__(self, map):
-        self.map = map
+    def __init__(self, world_map):
+        self.world_map = world_map
 
     def gen_chunk(self, force=False):
-        self.map.gen_chunk(self.point.x, self.point.y, force=force)
+        self.world_map.gen_chunk(self.point.x, self.point.y, force=force)
 
     def gen_top(self):
         self.point.y -= 1
@@ -34,13 +34,13 @@ class DiscoverMap:
         self.gen_chunk()
 
     def smooth(self):
-        self.map.smooth()
+        self.world_map.smooth()
 
     def regen(self):
         self.gen_chunk(force=True)
 
     def delete(self):
-        self.map.delete(self.point.x, self.point.y)
+        self.world_map.delete(self.point.x, self.point.y)
 
     def height_view(self):
         self.hei = not self.hei
@@ -49,11 +49,11 @@ class DiscoverMap:
         self.hea = not self.hea
 
     def print(self, printer):
-        printer.draw_map(map, hei=self.hei, hea=self.hea)
+        printer.draw_map(self.world_map, hei=self.hei, hea=self.hea)
 
     hei = True
     hea = True
-    map = None
+    world_map = None
     point = Point(0, 0)
 
 
@@ -69,17 +69,18 @@ map_key = {
     sdl2.SDLK_i: DiscoverMap.heat_view
 }
 
-def run(map):
-    sdl2.ext.init()
-    discover_map = DiscoverMap(map)
 
-    winsize = 1000
+def run(world_map):
+    sdl2.ext.init()
+    discover_map = DiscoverMap(world_map)
+
+    win_size = 1000
     window = sdl2.ext.Window("Height Map Discover", size=(1000, 1000))
     window.show()
     surface = window.get_surface()
 
-    printer_chk = PrinterChunkSDL(surface, winsize)
-    printer_map = PrinterMapBiom(printer_chk)
+    printer_chk = PrinterChunkSDL(surface, win_size)
+    printer_map = PrinterMapBiome(printer_chk)
 
     running = True
     edit = True
@@ -103,5 +104,4 @@ def run(map):
 
 if __name__ == '__main__':
     arg = int(sys.argv[1]) if len(sys.argv) > 1 else 5
-    map = MapDSBiom(arg, coef=30)
-    run(map)
+    run(MapDSBiome(arg, coef=15))

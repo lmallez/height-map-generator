@@ -1,9 +1,11 @@
 #!/bin/python3
 
 import random as ran
+from typing import List, Union
+
 import numpy as np
-from entity.Chunk import Chunk
-from entity.Point import Point
+from HeightMapGenerator.entities.Chunk import Chunk
+from HeightMapGenerator.entities.Point import Point
 
 
 class ChunkBasic(Chunk):
@@ -16,10 +18,11 @@ class ChunkBasic(Chunk):
         self.pos = pos
 
     def init_map(self):
-        self.map = [[None for y in range(0, self.size)] for x in range(0, self.size)]
+        self.map: List[List[Union[int, None]]] = [[None for _ in range(0, self.size)] for _ in range(0, self.size)]
 
-    def random_in(self, coef, avg):
-        ran.uniform(-coef / 2 + avg, coef / 2 + avg)
+    @staticmethod
+    def random_in(coef, avg):
+        return ran.uniform(-coef / 2 + avg, coef / 2 + avg)
 
     def set_border_one(self, x, y, coef, avg=0):
         if self.map[y][x] is None:
@@ -36,7 +39,8 @@ class ChunkBasic(Chunk):
             return None
         return self.map[y][x]
 
-    def get_border(self, x, y):
+    @staticmethod
+    def get_border(x, y):
         return [Point(x - 1, y),
                 Point(x, y - 1),
                 Point(x + 1, y),
@@ -46,7 +50,7 @@ class ChunkBasic(Chunk):
         if self.map[y][x] is None:
             return
         border = self.get_border(x, y)
-        avg = []
+        avg: List[int] = []
         for point in border:
             tmp = self.at(point.x, point.y)
             if tmp is not None:
@@ -89,6 +93,9 @@ class ChunkBasic(Chunk):
 
     def get_size(self):
         return self.size
+
+    def gen(self):
+        pass
 
     size = 0
     map = []

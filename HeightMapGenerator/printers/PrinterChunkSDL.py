@@ -1,7 +1,7 @@
 #!/bin/python3
 
 import sdl2.ext
-from draw.PrinterChunk import PrinterChunk
+from HeightMapGenerator.printers.PrinterChunk import PrinterChunk
 
 
 class PrinterChunkSDL(PrinterChunk):

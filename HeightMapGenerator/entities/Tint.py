@@ -1,5 +1,6 @@
 #!/bin/python3
 
+
 class Color:
     def __init__(self, r, g, b):
         self.r = r
@@ -40,7 +41,7 @@ class Color:
     a = 255
 
 
-class Teinte:
+class Tint:
     def __init__(self, x, y, min, max):
         self.min = min
         self.max = max
@@ -48,7 +49,7 @@ class Teinte:
         self.y = y
 
     def isInside(self, x):
-        return self.x <= x and x < self.y
+        return self.x <= x < self.y
 
     def getColor(self, x):
         diff = (x - self.x) / (self.y - self.x)
@@ -58,4 +59,3 @@ class Teinte:
     max = Color
     x = 0
     y = 0
-

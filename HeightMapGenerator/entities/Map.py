@@ -1,7 +1,8 @@
 #!/bin/python3
 
 import sys
-from entity.Point import Point
+from HeightMapGenerator.entities.Point import Point
+
 
 class Map:
     def __init__(self, prof, coef=1):
@@ -64,13 +65,13 @@ class Map:
         self.__gen_chunk_border(chunk)
         chunk.gen()
         self.map[x + y * 1000] = chunk
-        self.update_sizemap(x, y)
+        self.update_map_size(x, y)
         return
 
     def delete(self, x, y):
         del self.map[x + y * 1000]
 
-    def update_sizemap(self, x, y):
+    def update_map_size(self, x, y):
         self.size_map.x.x = x if x < self.size_map.x.x else self.size_map.x.x
         self.size_map.x.y = y if y < self.size_map.x.y else self.size_map.x.y
         self.size_map.y.x = x + 1 if x + 1 > self.size_map.y.x else self.size_map.y.x

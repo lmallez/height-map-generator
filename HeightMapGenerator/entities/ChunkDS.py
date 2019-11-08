@@ -2,7 +2,7 @@
 
 import random as ran
 import numpy as np
-from entity.ChunkBasic import ChunkBasic, Point
+from HeightMapGenerator.entities.ChunkBasic import ChunkBasic, Point
 
 
 class ChunkDS(ChunkBasic):
@@ -26,7 +26,7 @@ class ChunkDS(ChunkBasic):
             d = self.min
         return d
 
-    def gen_cercle_point(self, x, y, pad=1):
+    def gen_circle_point(self, x, y, pad=1):
         ptn_list = [Point(x - pad, y - pad),
                     Point(x + pad, y - pad),
                     Point(x - pad, y + pad),
@@ -42,7 +42,8 @@ class ChunkDS(ChunkBasic):
         for y in range(0, size):
             for x in range(0, size):
                 if self.map[y * pad][x * pad] is not None and self.map[y * pad + pad][x * pad + pad] is None:
-                    self.map[y * pad + pad][x * pad + pad] = self.gen_cercle_point(x * pad + pad, y * pad + pad, pad=pad)
+                    self.map[y * pad + pad][x * pad + pad] = \
+                        self.gen_circle_point(x * pad + pad, y * pad + pad, pad=pad)
         return
 
     def gen_square_point(self, x, y, pad=1):
@@ -57,7 +58,7 @@ class ChunkDS(ChunkBasic):
         for y in range(0, size):
             for x in range(0, size):
                 if self.map[y * pad][x * pad] is None:
-                    self.map[y * pad][x * pad] = self.gen_cercle_point(x * pad, y * pad, pad=pad)
+                    self.map[y * pad][x * pad] = self.gen_circle_point(x * pad, y * pad, pad=pad)
         return
 
     def gen(self):
