@@ -103,5 +103,6 @@ def run(world_map):
 
 
 if __name__ == '__main__':
-    arg = int(sys.argv[1]) if len(sys.argv) > 1 else 5
-    run(MapDSBiome(arg, coef=15))
+    depth = int(sys.argv[1]) if len(sys.argv) > 1 else 4
+    coef = int(sys.argv[1]) if len(sys.argv) > 1 else 15
+    run(MapDSBiome(depth, coef=coef))

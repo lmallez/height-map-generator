@@ -7,14 +7,13 @@ from HeightMapGenerator.printers.PrinterChunkSDL import PrinterChunkSDL
 from HeightMapGenerator.printers.PrinterMapBiome import PrinterMapBiome
 
 
-def run():
+def run(depth, coef):
     sdl2.ext.init()
     win_size = 1000
     window = sdl2.ext.Window("PHM - Map Viewer", size=(win_size, win_size))
     surface = window.get_surface()
 
-    world_map = MapDSBiome(4, coef=100)
-    world_map.gen_chunk(0, 0)
+    world_map = MapDSBiome(depth, coef=coef)
     world_map.gen_chunk(1, 0)
     world_map.gen_chunk(0, 1)
     world_map.gen_chunk(1, 1)
@@ -41,6 +40,8 @@ def run():
                     hea = not hea
                 else:
                     have_event = False
+            if event.type == sdl2.SDL_QUIT:
+                running = False
         if have_event:
             sdl2.ext.fill(surface, sdl2.ext.Color(0, 0, 0))
             printer_map.draw_map(world_map, hei=hei, hea=hea)
@@ -49,4 +50,6 @@ def run():
 
 
 if __name__ == "__main__":
-    sys.exit(run())
+    depth = int(sys.argv[1]) if len(sys.argv) > 1 else 6
+    coef = int(sys.argv[1]) if len(sys.argv) > 1 else 15
+    sys.exit(run(depth, coef))
