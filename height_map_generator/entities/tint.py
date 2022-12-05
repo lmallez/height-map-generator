@@ -1,11 +1,9 @@
 #!/bin/python3
+from dataclasses import dataclass
 
 
+@dataclass
 class Color:
-    def __init__(self, r, g, b):
-        self.r = r
-        self.g = g
-        self.b = b
 
     def newColor(self, color, coef=0.5):
         red = self.r * (1 - coef) + color.r * coef
@@ -35,10 +33,10 @@ class Color:
     def toStr(self):
         return "#%02x%02x%02x" % (self.r, self.g, self.b)
 
-    r = 0
-    g = 0
-    b = 0
-    a = 255
+    r: int = 0
+    g: int = 0
+    b: int = 0
+    a: int = 255
 
 
 class Tint:
@@ -51,7 +49,7 @@ class Tint:
     def isInside(self, x):
         return self.x <= x < self.y
 
-    def getColor(self, x):
+    def get_color(self, x):
         diff = (x - self.x) / (self.y - self.x)
         return self.min.newColor(self.max, coef=diff)
 

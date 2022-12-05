@@ -4,8 +4,9 @@ import random as ran
 from typing import List, Union
 
 import numpy as np
-from HeightMapGenerator.entities.Chunk import Chunk
-from HeightMapGenerator.entities.Point import Point
+
+from entities.chunk import Chunk
+from entities.point import Point
 
 
 class ChunkBasic(Chunk):
@@ -18,7 +19,9 @@ class ChunkBasic(Chunk):
         self.pos = pos
 
     def init_map(self):
-        self.map: List[List[Union[int, None]]] = [[None for _ in range(0, self.size)] for _ in range(0, self.size)]
+        self.map: List[List[Union[int, None]]] = [
+            [None for _ in range(0, self.size)] for _ in range(0, self.size)
+        ]
 
     @staticmethod
     def random_in(coef, avg):
@@ -41,10 +44,12 @@ class ChunkBasic(Chunk):
 
     @staticmethod
     def get_border(x, y):
-        return [Point(x - 1, y),
-                Point(x, y - 1),
-                Point(x + 1, y),
-                Point(x, y + 1)]
+        return [
+            Point(x - 1, y),
+            Point(x, y - 1),
+            Point(x + 1, y),
+            Point(x, y + 1),
+        ]
 
     def smooth_point(self, x, y):
         if self.map[y][x] is None:

@@ -2,9 +2,10 @@
 
 import sys
 import sdl2.ext
-from HeightMapGenerator.entities.MapDSBiome import MapDSBiome
-from HeightMapGenerator.printers.PrinterChunkSDL import PrinterChunkSDL
-from HeightMapGenerator.printers.PrinterMapBiome import PrinterMapBiome
+
+from entities.map_DS_biome import MapDSBiome
+from printers.printer_chunk_sdl import PrinterChunkSDL
+from printers.printer_map_biome import PrinterMapBiome
 
 
 def run(depth, coef):

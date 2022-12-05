@@ -1,7 +1,8 @@
 #!/bin/python3
 
 import sdl2.ext
-from HeightMapGenerator.printers.PrinterChunk import PrinterChunk
+
+from printers.printer_chunk import PrinterChunk
 
 
 class PrinterChunkSDL(PrinterChunk):
@@ -10,6 +11,10 @@ class PrinterChunkSDL(PrinterChunk):
         self.surface = surface
 
     def print(self, color, area):
-        sdl2.ext.fill(self.surface, sdl2.ext.Color(int(color.r), int(color.g), int(color.b)), area=area)
+        sdl2.ext.fill(
+            self.surface,
+            sdl2.ext.Color(int(color.r), int(color.g), int(color.b)),
+            area=area,
+        )
 
     surface = None

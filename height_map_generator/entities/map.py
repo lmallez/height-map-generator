@@ -1,7 +1,8 @@
 #!/bin/python3
 
 import sys
-from HeightMapGenerator.entities.Point import Point
+
+from entities.point import Point
 
 
 class Map:

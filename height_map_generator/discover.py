@@ -4,10 +4,10 @@ import sys
 
 import sdl2.ext
 
-from HeightMapGenerator.printers.PrinterChunkSDL import PrinterChunkSDL
-from HeightMapGenerator.printers.PrinterMapBiome import PrinterMapBiome
-from HeightMapGenerator.entities.MapDSBiome import MapDSBiome
-from HeightMapGenerator.entities.Point import Point
+from entities.map_DS_biome import MapDSBiome
+from entities.point import Point
+from printers.printer_chunk_sdl import PrinterChunkSDL
+from printers.printer_map_biome import PrinterMapBiome
 
 
 class DiscoverMap:
@@ -66,7 +66,7 @@ map_key = {
     sdl2.SDLK_m: DiscoverMap.regen,
     sdl2.SDLK_o: DiscoverMap.delete,
     sdl2.SDLK_u: DiscoverMap.height_view,
-    sdl2.SDLK_i: DiscoverMap.heat_view
+    sdl2.SDLK_i: DiscoverMap.heat_view,
 }
 
 
@@ -102,7 +102,7 @@ def run(world_map):
                 running = False
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     depth = int(sys.argv[1]) if len(sys.argv) > 1 else 4
     coef = int(sys.argv[1]) if len(sys.argv) > 1 else 15
     run(MapDSBiome(depth, coef=coef))

@@ -1,6 +1,5 @@
 #!/bin/python3
-
-from HeightMapGenerator.printers.PrinterMap import PrinterMap
+from printers.printer_map import PrinterMap
 
 
 class PrinterMapBiome(PrinterMap):

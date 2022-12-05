@@ -1,8 +1,7 @@
 #!/bin/python3
-
-from HeightMapGenerator.entities.Map import Map
-from HeightMapGenerator.entities.ChunkDSBiome import ChunkDSBiome
-from HeightMapGenerator.entities.Point import Point
+from entities.chunk_DS_biome import ChunkDSBiome
+from entities.map import Map
+from entities.point import Point
 
 
 class MapDSBiome(Map):

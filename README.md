@@ -2,9 +2,13 @@
 
 implementation of the diamond square algorithm to generate a height map and a biome map
 
+### Requirements
+
+```python3 -m pip install -r requirements.txt```
+
 ### Viewer : Generate static chunks
 
-`python3 src/Viewer.py [depth] [coef]`
+```python3 height_map_generator/viewer.py [depth] [coef]```
   * `depth` number of occurrences of the algorithm (starts to be very long from 8)
   * `coef` maximum height difference between two blocks side by side
 
@@ -13,11 +17,11 @@ While the window is open you can use :
   * `u` enable/disable the coloration by height
   * `i` enable/disable the coloration by biome
 
-![viewer sample](https://github.com/lmallez/height-map-generator/blob/master/samples/viewer_sample.png)
+![viewer sample](./samples/viewer_sample.png)
 
 ### Discover : Generate a world
 
-`python3 src/Discover.py [depth] [coef]`
+```python3 height_map_generator/discover.py [depth] [coef]```
   * `depth` number of occurrences of the algorithm (starts to be very long from 8)
   * `coef` maximum height difference between two blocks side by side
   
@@ -28,7 +32,7 @@ While the window is open you can use :
   * `u` enable/disable the coloration by height
   * `i` enable/disable the coloration by biome
   
-  ![discover sample](https://github.com/lmallez/height-map-generator/blob/master/samples/discover_sample.png)
+  ![discover sample](./samples/discover_sample.png)
   
   ### TODO
   
